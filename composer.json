@@ -1,0 +1,12 @@
+{
+    "name": "nguyenduybao/project-php-js-ajax-mysql-",
+    "require": {}
+    
+}
+- restore_cache:
+    keys:
+    # "composer.lock" can be used if it is committed to the repo
+    - v1-dependencies-{{ checksum "./composer.json" }}
+- run:
+    working_directory: ./
+    command: composer install -n --prefer-dist
