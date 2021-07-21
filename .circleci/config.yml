@@ -7,20 +7,20 @@ version: 2.1
         GOSS_FILES_STRATEGY: cp
 
   steps:
-      ...
-      Download and cache dependencies
-      - restore_cache:
-         keys:
-         - v1-dependencies-{{ checksum "composer.json" }}
-         # fallback to using the latest cache if no exact match is found
-         - v1-dependencies-
-
 
     - checkout
 
     - setup_remote_docker:
         version: 17.11.0-ce
-
+        # composer cache
+    - restore_cache:
+        keys:
+          - vendor-v1-{{ checksum "composer.lock" }}
+    - run:  composer install
+    - save_cache:
+        key: vendor-v1-{{ checksum "composer.lock" }}
+        paths:
+          - vendor
     - run:
         name: Install build tools
         command: apk add --no-cache make git curl bash
